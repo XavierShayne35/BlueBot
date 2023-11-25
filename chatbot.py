@@ -1,38 +1,64 @@
-import settings
 import discord
-# import * - è un modo rapido per importare tutti i file della libreria.
-from bot_logic import gen_pass, gen_emodji, flip_coin
+from discord.ext import commands
+import random
 
-# La variabile intents memorizza i privilegi del bot
 intents = discord.Intents.default()
-# Abilitazione del privilegio di lettura dei messaggi
 intents.message_content = True
-# Creare un bot nella variabile client e trasferirgli i privilegi
-client = discord.Client(intents=intents)
 
+bot = commands.Bot(command_prefix='$', intents=intents)
 
-# Una volta che il bot è pronto, stamperà il suo nome!
-@client.event
+@bot.event
 async def on_ready():
-    print(f'Abbiamo effettuato l\'accesso come {client.user}')
+    print(f'Hai fatto l\'accesso come {bot.user}')
 
+@bot.command()
+async def ciao(ctx):
+    await ctx.send(f'Ciao! Sono un bot {bot.user}!')
 
-# Quando il bot riceve un messaggio, invia messaggi nello stesso canale!
-@client.event
-async def on_message(message):
-    if message.author == client.user:
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def add(ctx, left: int, right: int):
+    """Adds two numbers together."""
+    await ctx.send(left + right)
+
+@bot.command()
+async def roll(ctx, dice: str):
+    """Rolls a dice in NdN format."""
+    try:
+        rolls, limit = map(int, dice.split('d'))
+    except Exception:
+        await ctx.send('Format has to be in NdN!')
         return
-    if message.content.startswith('$hello'):
-        await message.channel.send('Ciao! Sono un nuovo ChatBot!')
-    elif message.content.startswith('$arrivederci'):
-        await message.channel.send("\\U0001f642")
-    elif message.content.startswith('$smile'):
-        await message.channel.send(gen_emodji())
-    elif message.content.startswith('$coin'):
-        await message.channel.send(flip_coin())
-    elif message.content.startswith('$pass'):
-        await message.channel.send(gen_pass(10))
-    else:
-        await message.channel.send("Non è possibile elaborare questo comando, mi dispiace!")
 
-client.run(settings.get_settings()["TOKEN"])
+    result = ', '.join(str(random.randint(1, limit)) for r in range(rolls))
+    await ctx.send(result)
+
+@bot.command(description='For when you wanna settle the score some other way')
+async def choose(ctx, *choices: str):
+    """Chooses between multiple choices."""
+    await ctx.send(random.choice(choices))
+
+@bot.command()
+async def repeat(ctx, times: int, content='repeating...'):
+    """Repeats a message multiple times."""
+    for i in range(times):
+        await ctx.send(content)
+
+@bot.command()
+async def joined(ctx, member: discord.Member):
+    """Says when a member joined."""
+    await ctx.send(f'{member.name} joined {discord.utils.format_dt(member.joined_at)}')
+
+@bot.group()
+async def cool(ctx):
+    """Says if a user is cool.
+
+    In reality this just checks if a subcommand is being invoked.
+    """
+    if ctx.invoked_subcommand is None:
+        await ctx.send(f'No, {ctx.subcommand_passed} is not cool')
+
+bot.run("MTE3NTM4MTY3ODM4MjkxNTYwNA.Gb2Q3_.WIzBdA0sm33AieB01C2KnqOSiXUbVmL1kUlNMM")
