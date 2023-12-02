@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import random
 
-
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -15,6 +14,16 @@ async def on_ready():
 @bot.command()
 async def ciao(ctx):
     await ctx.send(f'Ciao! Sono un bot {bot.user}!')
+
+@bot.command()
+async def helpme(ctx):
+    await ctx.send(f'Ecco la lista dei comandi:(metti sempre davanti il prefisso $)')
+    await ctx.send(f'ciao, che ti permette di essere salutato')
+    await ctx.send(f'heh, che va scritto assieme a quante volte lo si vuole ripetere')
+    await ctx.send(f'add, che va scritto assieme ai numeri che si vuole sommare')
+    await ctx.send(f'roll, che va scritto prima quanti dadi vogliamo lanciare poi d e poi di quanto deve essere il dado. Es: 1d6')
+    await ctx.send(f'choose, che va scritto insieme ad altre parole ed il bot ne sceglierà una a caso')
+    await ctx.send(f'repeat, che va scritto prima il numero di quante volte si vuole ripetere una parola e poi la parola')
 
 @bot.command()
 async def heh(ctx, count_heh = 5):
@@ -53,13 +62,5 @@ async def joined(ctx, member: discord.Member):
     """Says when a member joined."""
     await ctx.send(f'{member.name} joined {discord.utils.format_dt(member.joined_at)}')
 
-@bot.group()
-async def cool(ctx):
-    """Says if a user is cool.
 
-    In reality this just checks if a subcommand is being invoked.
-    """
-    if ctx.invoked_subcommand is None:
-        await ctx.send(f'No, {ctx.subcommand_passed} is not cool')
-
-bot.run("MTE3NTM4MTY3ODM4MjkxNTYwNA.Gb2Q3_.WIzBdA0sm33AieB01C2KnqOSiXUbVmL1kUlNMM")
+bot.run("MTE3NTM4MTY3ODM4MjkxNTYwNA.GMVggg.q70XnFSIFy7du_fsBJ-XdO6w2R-jMdtKX72ByA")
