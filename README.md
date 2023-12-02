@@ -1,2 +1,2 @@
-I file vanno caricati tutti e tre per il corretto funzionamento del bot.
-Ultichat oltre a rispondere ai comandi per salutare, può fare testa o croce, selezionare emoji casuali, e crearti una password
+Questo è BlueBot un nuovo chatbot
+I comandi disponibili agli utenti si possono trovare digitando $helpme
