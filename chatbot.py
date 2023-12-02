@@ -63,4 +63,4 @@ async def joined(ctx, member: discord.Member):
     await ctx.send(f'{member.name} joined {discord.utils.format_dt(member.joined_at)}')
 
 
-bot.run("MTE3NTM4MTY3ODM4MjkxNTYwNA.GMVggg.q70XnFSIFy7du_fsBJ-XdO6w2R-jMdtKX72ByA")
+bot.run("IL TOKEN VA INSERITO QUI")
