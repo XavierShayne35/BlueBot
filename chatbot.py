@@ -20,8 +20,6 @@ async def ciao(ctx):
 async def helpme(ctx):
     await ctx.send(f'Ecco la lista dei comandi:(metti sempre davanti il prefisso $)')
     await ctx.send(f'ciao, che ti permette di essere salutato')
-    await ctx.send(f'gen_pass, che scritto inseme al numero di caratteri di cui vuoi che la password sia, genera una password casuale')
-    await ctx.send(f'gen_emoji,invia un emoji casuale')
     await ctx.send(f'flip_coin, che ti permette di lanciare una moneta')
     await ctx.send(f'heh, che va scritto assieme a quante volte lo si vuole ripetere')
     await ctx.send(f'add, che va scritto assieme ai numeri che si vuole sommare')
@@ -29,29 +27,17 @@ async def helpme(ctx):
     await ctx.send(f'choose, che va scritto insieme ad altre parole ed il bot ne sceglierà una a caso')
     await ctx.send(f'repeat, che va scritto prima il numero di quante volte si vuole ripetere una parola e poi la parola')
     await ctx.send(f'gen_meme, invia un meme causale')
+    await ctx.send(f'meme_basic, invia un meme causale tra alcuni predefiniti')
+    await ctx.send(f'meme_byme, invia un meme causale tra alcuni creati da me')
+    await ctx.send(f'meme_web, invia un meme casuale tra alcuni presi dal web')
 
 @bot.command()
-async def gen_pass(pass_length):
-    elements = "abcdefghijklmnopqrstuvwxyz123456789+-/*!&$#?=@<>"
-    password = ""
-
-    for i in range(pass_length):
-        password += random.choice(elements)
-
-    return password
-
-@bot.command()
-async def gen_emodji():
-    emodji = ["\U0001f600", "\U0001f642", "\U0001F606", "\U0001F923"]
-    return random.choice(emodji)
-
-@bot.command()
-async def flip_coin():
+async def flip_coin(ctx):
     flip = random.randint(0, 2)
     if flip == 0:
-        return "HEADS"
+        await ctx.send (f"HEADS")
     else:
-        return "TAILS"
+        await ctx.send(f"TAILS")
 
 @bot.command()
 async def heh(ctx, count_heh = 5):
@@ -86,16 +72,6 @@ async def repeat(ctx, times: int, content='repeating...'):
         await ctx.send(content)
 
 @bot.command()
-async def meme(ctx):
-    with open('images/1.png', 'rb') as f:
-        # Memorizziamo il file della libreria di Discord convertito in questa variabile!
-        picture = discord.File(f)
-   # Possiamo quindi inviare questo file come parametro!
-    await ctx.send(file=picture)
-
-import os
-
-@bot.command()
 async def gen_meme(ctx, name=None):
     folder = "images"
     memes = os.listdir(folder)
@@ -106,7 +82,37 @@ async def gen_meme(ctx, name=None):
     with open(f'{folder}/{name}', 'rb') as f:
         picture = discord.File(f)
         await ctx.send(file=picture)
-    
+
+@bot.command()
+async def meme_basic(ctx, name_b=None):
+    folder_b= "images_basic"
+    memes_b = os.listdir(folder_b)
+    if name_b is None or name_b not in memes_b:
+        name_b = random.choice(memes_b)
+    with open(f'{folder_b}/{name_b}', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
+@bot.command()
+async def meme_byme(ctx, name_m=None):
+    folder_m= "images_me"
+    memes_m = os.listdir(folder_m)
+    if name_m is None or name_m not in memes_m:
+        name_m = random.choice(memes_m)
+    with open(f'{folder_m}/{name_m}', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
+@bot.command()
+async def meme_web(ctx, name_w=None):
+    folder_w= "images_web"
+    memes_w = os.listdir(folder_w)
+    if name_w is None or name_w not in memes_w:
+        name_w = random.choice(memes_w)
+    with open(f'{folder_w}/{name_w}', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
 @bot.command()
 async def joined(ctx, member: discord.Member):
     """Says when a member joined."""
